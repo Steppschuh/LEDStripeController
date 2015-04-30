@@ -29,7 +29,7 @@ void LEDStrip::setColor(Color color) {
 }
 
 Color LEDStrip::dimColor(Color color) {
-	// reaclculate rgb values based on alpha value
+	// recalculate rgb values based on alpha value
 	Color newColor = color;
 	newColor.r = (newColor.r * newColor.a) / 255;
 	newColor.g = (newColor.g * newColor.a) / 255;
@@ -39,7 +39,7 @@ Color LEDStrip::dimColor(Color color) {
 
 void LEDStrip::turnOn() {
 	masterOn = true;
-	setColor(WHITE);
+	setColor(lastManuallySetColor);
 }
 
 void LEDStrip::turnOff() {

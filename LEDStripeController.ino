@@ -15,7 +15,7 @@ byte command[commandBuffer];          			// Holds the actual command
 int commandPointer = 0;               			// Points to the next free index in command aray
 boolean isReceivingCommand = false;
 
-// Command API identifier
+// Command API identifier (Remote Control Collection app)
 const byte CMD_START = 60;         				// Ascii for "<"
 const byte CMD_END = 62;           				// Ascii for ">"
 const byte CMD_APIv3 = 127; 
@@ -53,8 +53,6 @@ unsigned long timeLastMotionDetected = 0;
 // General
 unsigned long timeLastSensorCheck = 0;
 unsigned long timeLastFadeStep = 0;
-
-boolean isLightOn = false;
 
 // Instance of the LED stripe
 LEDStrip led(redPin, greenPin, bluePin);
@@ -117,6 +115,7 @@ void processSensorData() {
 		Serial.println(lastLightSensorValue);
 	}
 
+	// Toggle the light depending on sensor data
 	if (hasRecentlyDetectedActivity() && shouldLightenUpRoom()) {
 		// Lighten up the room
 		if (!led.isLightningUp()) {

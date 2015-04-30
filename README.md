@@ -1,5 +1,5 @@
 # LEDStripeController
-Control LED Stripes with an Arduino
+Control LED Stripes with an Arduino. Check out the [demo video](http://www.youtube.com/watch?v=-KIZ_tn629w).
 
 Setup
 -----
@@ -39,3 +39,9 @@ You can also invoke a smooth fade on the LED strip, use the *fadeToColor(Color n
 led.fadeToColor(led.RED);
 led.fadeToColor(led.RED, led.FADE_SPEED_SLOW); // optional speed parameter
 ```
+
+Wiring
+-----
+![wiring](http://random-how-to.com/media/images/led/led_setup.JPG)
+
+To learn more about the used components, check [this guide](http://random-how-to.com/control-led-stripes-with-an-arduino/).

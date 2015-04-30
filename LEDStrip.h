@@ -52,7 +52,10 @@ class LEDStrip {
 		int _bluePin;
 
 		Color getNextFadeColor();
-		Color nearColorTo(Color color1, Color color2, byte step);
+		Color nearColorTo(Color color1, Color color2, byte fadeSpeed);
+		byte getStepSize(unsigned char colorValue1, unsigned char colorValue2, byte fadeSpeed, unsigned char maximumDifference);
+		byte getMaximumDifference(Color color1, Color color2);
+		byte getDifference(unsigned char colorValue1, unsigned char colorValue2);
 		byte nearValue(byte from, byte to, byte steps);
 };
 

@@ -80,13 +80,47 @@ Color LEDStrip::getNextFadeColor() {
 	return nearColorTo(currentColor, targetColor, fadeSpeed);
 }
 
-Color LEDStrip::nearColorTo(Color color1, Color color2, byte steps) {
+Color LEDStrip::nearColorTo(Color color1, Color color2, byte fadeSpeed) {
 	Color newColor = color1;
-	newColor.r = nearValue(color1.r, color2.r, steps);
-	newColor.g = nearValue(color1.g, color2.g, steps);
-	newColor.b = nearValue(color1.b, color2.b, steps);
-	newColor.a = nearValue(color1.a, color2.a, steps);
+
+	// calculate step size based on the maximum remaining difference
+	unsigned char maximumDifference = getMaximumDifference(color1, color2);
+
+	newColor.r = nearValue(color1.r, color2.r, getStepSize(color1.r, color2.r, fadeSpeed, maximumDifference));
+	newColor.g = nearValue(color1.g, color2.g, getStepSize(color1.g, color2.g, fadeSpeed, maximumDifference));
+	newColor.b = nearValue(color1.b, color2.b, getStepSize(color1.b, color2.b, fadeSpeed, maximumDifference));
+	newColor.a = nearValue(color1.a, color2.a, getStepSize(color1.b, color2.b, fadeSpeed, maximumDifference));
 	return newColor;
+}
+
+byte LEDStrip::getStepSize(unsigned char colorValue1, unsigned char colorValue2, byte fadeSpeed, unsigned char maximumDifference) {
+	unsigned char currentDifference = getDifference(colorValue1, colorValue2);
+	byte stepSize = round((int)(fadeSpeed * currentDifference) / maximumDifference);
+	stepSize = min(fadeSpeed, stepSize);
+	stepSize = max(1, stepSize);
+	return stepSize;
+}
+
+unsigned char LEDStrip::getMaximumDifference(Color color1, Color color2) {
+	unsigned char redDifference = getDifference(color1.r, color2.r);
+	unsigned char greenDifference = getDifference(color1.g, color2.g);
+	unsigned char blueDifference = getDifference(color1.b, color2.b);
+	unsigned char alphaDifference = getDifference(color1.a, color2.a);
+
+	unsigned char maximumDifference = max(redDifference, greenDifference);
+	maximumDifference = max(maximumDifference, blueDifference);
+	maximumDifference = max(maximumDifference, alphaDifference);
+
+	return maximumDifference;
+}
+
+unsigned char LEDStrip::getDifference(unsigned char colorValue1, unsigned char colorValue2) {
+	int difference = colorValue1 - colorValue2;
+	if (difference >= 0) {
+		return difference;
+	} else {
+		return colorValue2 - colorValue1;
+	}
 }
 
 // checks if the current color is lightning up the room
